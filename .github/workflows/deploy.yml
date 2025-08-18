@@ -1,0 +1,23 @@
+name: my blog
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  npm-build:
+    name: npm build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: 部署到 GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
