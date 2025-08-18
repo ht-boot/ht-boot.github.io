@@ -5,6 +5,9 @@ export default defineConfig({
   title: "my blog",
   description: "A VitePress Site",
   base: "/v-blog/",
+  build: {
+    outDir: "docs/.vitepress/dist", //构建产物输出目录
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
