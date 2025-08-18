@@ -1,23 +1,50 @@
-name: my blog
+# .github/workflows/pages.yml
+name: Deploy to GitHub Pages
 
-on: push
+on:
+  push:
+    branches: [main] # 根据你的默认分支修改
+  workflow_dispatch:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  npm-build:
-    name: npm build
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 #node版本
+
       - name: Install dependencies
         run: npm install
-      - name: Build
-        run: npm run build
-      - name: 部署到 GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+
+      - name: Build with VitePress
+        run: npm run build #根据package.json的scripts对象修改
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: dist
+          path: docs/.vitepress/dist #构建输出目录
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
