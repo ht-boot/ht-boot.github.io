@@ -1,25 +1,14 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
-
-hero:
-  name: "my blog"
-  text: "A VitePress Site"
-  tagline: My great project tagline
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
-
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+# 首页部分元素定制
+blog:
+  name: taQ's Blog
+  motto: 简约风的 Vitepress 博客主题
+  inspiring:
+    - 基于 Vitepress 定制的主题
+    - 风起于青萍之末,浪成于微澜之间
+    - ....
+  # 设置 inspiringTimeout 可以实现自动切换
+  inspiringTimeout: 3000
+  pageSize: 6
 ---
-
