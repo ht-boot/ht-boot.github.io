@@ -4,7 +4,6 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "my blog",
   description: "A VitePress Site",
-  base: "/v-blog/",
   // vite: {
   //   build: {
   //     outDir: "docs/.vitepress/dist",
