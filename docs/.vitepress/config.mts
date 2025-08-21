@@ -51,8 +51,16 @@ export default defineConfig({
       { text: "关于作者", link: "/pages/aboutme" },
       // 二级导航
       {
+        text: "知识库",
+        items: [
+          { text: "博客创建", link: `/pages/notice/quickStart` },
+          { text: "工具推荐", link: `/pages/notice/tool` },
+        ],
+      },
+      {
         text: "前端",
         items: [
+          { text: "typescript", link: `/pages/knowledge_base/typescript` },
           { text: "javascript", link: `/guide/` },
           { text: "vue", link: `/pages/aboutme` },
           { text: "html", link: `/quick-started/` },
