@@ -6,14 +6,9 @@ descriptionHTML: '
 <pre style="background-color: #292b30; padding: 15px; border-radius: 10px;" class="shiki material-theme-palenight"><code>
     <span class="line"><span style="color:#FFCB6B;">npm</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">add -D</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">vitepress@next</span></span>
     <br/>
-    <br/>
     <span class="line"><span style="color:#FFCB6B;">npx</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">vitepress</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">init</span></span>
     <br/>
-    <br/>
     <span class="line"><span style="color:#FFCB6B;">npm</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">i</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">@sugarat/theme</span></span>
-     <br/>
-    <br/>
-    <span class="line"><span style="color:#B392F0;">npm run</span><span style="color:#E1E4E8;"> </span><span style="color:#9ECBFF;">dev</span><span style="color:#E1E4E8;"> </span></span>
 </code>
 </pre>'
 tag:
