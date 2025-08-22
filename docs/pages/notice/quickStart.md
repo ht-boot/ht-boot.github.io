@@ -326,4 +326,4 @@ pnpm add vitepress@latest
 ## 更多
 
 博主是因为想在自己框架的基础上换一个主题才这样做的，所以看起来很麻烦，各位看官的博客若是从头开始的，可以
-参考 [主题文档](https://theme.sugarat.top/sop/quickStart.html)，简单明了，配置好即可，非常方便。
+参考 [主题文档](https://theme.sugarat.top/sop/quickStart.html)，简单明了，非常方便。
