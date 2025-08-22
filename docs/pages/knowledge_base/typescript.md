@@ -6,7 +6,7 @@ tags:
   - ts
 ---
 
-### typescript 的参数约束（项目案例）
+# typescript 的参数约束（项目案例）
 
 在项目中发现，有这么一个问题，要对工具函数的参数进行约束， 函数有两个参数 func(param1, param2), 一个对象(param1)还有一个是对象的属性(param2)， 且 param2 必须是 param1 中的属性。
 起初定义类型如下：
