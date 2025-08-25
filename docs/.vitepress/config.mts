@@ -61,7 +61,7 @@ export default defineConfig({
         text: "前端",
         items: [
           { text: "typescript", link: `/pages/knowledge_base/typescript` },
-          { text: "javascript", link: `/pages/javascript/index` },
+          { text: "javascript", link: `/pages/javascript/javascript` },
           { text: "vue", link: `/pages/aboutme` },
           { text: "html", link: `/quick-started/` },
           { text: "css", link: `/reference/` },
