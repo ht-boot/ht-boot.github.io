@@ -19,22 +19,10 @@ tags: 其他
 
 ### 公司
 
-- 2024.04 - ing：C 端
-- 2021.07 - 2022.11：[业务产品：开店宝](https://ecom.meituan.com)
-
-### 项目
-
-- 2023.01 - ing：VitePress 博客主题：[@sugarat/theme 主题](https://theme.sugarat.top/)
-- 2019.12 - ing：图床 [七牛云/又拍云 OSS 图床](https://imgbed.sugarat.top/)
-- 2019.03 - ing：Web 应用：[EasyPicker](https://ep2.sugarat.top/)
-- 一些 [Node CLI](https://github.com/ATQQ/tools) 工具
-- 微信小程序：[活动考勤签到小程序](https://github.com/ATQQ/sign-client)
-- 。。。
-
 ## 联系我
 
 **邮箱**：1165006789@qq.com
 
-**微信**：
+**微信**：hutao116500
 
 <img src="" style="width:200px;">
