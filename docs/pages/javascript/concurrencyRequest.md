@@ -2,8 +2,7 @@
 sidebar: true
 title: 多并发请求控制
 date: 2022-12-11
-tags:
-  - js
+tags: js
 ---
 
 # 多并发请求控制

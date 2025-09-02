@@ -62,7 +62,8 @@ export default defineConfig({
         items: [
           { text: "typescript", link: `/pages/knowledge_base/typescript` },
           { text: "javascript", link: `/pages/javascript/javascript` },
-          { text: "react", link: `/pages/react/react` }
+          { text: "react", link: `/pages/react/react` },
+          { text: "vue", link: `/pages/vue/vue` },
         ],
       },
     ],

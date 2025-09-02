@@ -2,8 +2,7 @@
 sidebar: true
 title: typescript 泛型
 date: 2022-12-11
-tags:
-  - ts
+tags: ts
 ---
 
 # typescript 的参数约束（项目案例）

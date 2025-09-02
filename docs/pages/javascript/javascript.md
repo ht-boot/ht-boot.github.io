@@ -2,8 +2,7 @@
 sidebar: true
 title: javascript
 date: 2022-12-11
-tags:
-  - js
+tags: js
 ---
 
 # JavaScript 知识记录

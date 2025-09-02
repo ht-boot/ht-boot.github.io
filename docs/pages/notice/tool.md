@@ -2,8 +2,7 @@
 sidebar: true
 title: 前端工具库推荐
 description: 收集一些前端可以用到的工具库，包括设计工具、动画工具、导航菜单模板等。
-tags:
-  - 其它
+tags: 其他
 ---
 
 # 工具库推荐

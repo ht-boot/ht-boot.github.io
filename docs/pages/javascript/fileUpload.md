@@ -2,8 +2,7 @@
 sidebar: true
 title: 大文件上传
 date: 2024-04-11
-tags:
-  - js
+tags: js
 ---
 
 # 大文件上传

@@ -1,9 +1,9 @@
 ---
 sidebar: true
 title: react
+outline: deep
 description: react 学习记录。
-tags:
-  - react
+tags: react
 ---
 
 # React

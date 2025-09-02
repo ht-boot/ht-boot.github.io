@@ -4,8 +4,7 @@ title: 关于自己
 date: 2022-12-11
 # 图片
 # cover: url
-tags:
-  - 其它
+tags: 其他
 ---
 
 # 关于我

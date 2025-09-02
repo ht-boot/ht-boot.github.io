@@ -11,8 +11,7 @@ descriptionHTML: '
     <span class="line"><span style="color:#FFCB6B;">npm</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">i</span><span style="color:#A6ACCD;"> </span><span style="color:#C3E88D;">@sugarat/theme</span></span>
 </code>
 </pre>'
-tag:
- - 其他
+tags: 其他
 top: 1
 sidebar: true
 ---
