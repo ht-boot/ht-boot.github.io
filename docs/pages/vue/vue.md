@@ -12,7 +12,7 @@ tags: vue
 
 #### 实现 hooks
 
-```ts
+```ts [useVModel.ts]
 import { computed } from "vue";
 
 const cacheMap = new WeakMap();
@@ -48,7 +48,7 @@ export const useVModel = <T extends object, K extends keyof T>(
 
 #### 使用
 
-```vue
+```vue [index.vue]
 <!-- ------------------------父组件------------------------ -->
 <template>
   <component_form v-model:userInfo="formData" />
