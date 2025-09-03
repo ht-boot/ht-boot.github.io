@@ -1,0 +1,101 @@
+diff --git a/node_modules/@sugarat/theme/src/components/BlogFooter.vue b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
+index bbd5aa1..a9d25de 100644
+--- a/node_modules/@sugarat/theme/src/components/BlogFooter.vue
++++ b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
+@@ -19,7 +19,7 @@ const renderData = computed(() => {
+       name: string
+       link?: string
+       icon?: string | boolean
+-    } | string) [] = []
++    } | string)[] = []
+     // message
+     const messageData = [message || []].flat()
+     const bottomMessageData = [bottomMessage || []].flat()
+@@ -28,12 +28,6 @@ const renderData = computed(() => {
+     const isLast = idx === flatData.length - 1
+     if ((version !== false && isLast) || version) {
+       const versionItem = typeof version === 'object' ? version : {}
+-
+-      data.push({
+-        name: versionItem?.name || `@sugarat/theme@${packageJSON.version}`,
+-        link: versionItem?.link || 'https://theme.sugarat.top/',
+-        icon: versionItem?.icon || themeSVG
+-      })
+     }
+     // copyright
+     if (typeof copyright === 'string') {
+diff --git a/node_modules/@sugarat/theme/src/components/BlogHomeHeaderAvatar.vue b/node_modules/@sugarat/theme/src/components/BlogHomeHeaderAvatar.vue
+index 1a61ae2..38e806e 100644
+--- a/node_modules/@sugarat/theme/src/components/BlogHomeHeaderAvatar.vue
++++ b/node_modules/@sugarat/theme/src/components/BlogHomeHeaderAvatar.vue
+@@ -1,4 +1,4 @@
+-<script  setup lang="ts">
++<script setup lang="ts">
+ import { useData, withBase } from 'vitepress'
+ import { computed } from 'vue'
+ import { useHomeConfig } from '../composables/config/blog'
+@@ -7,10 +7,10 @@ const home = useHomeConfig()
+ const { frontmatter, site } = useData()
+ const logo = computed(() =>
+   frontmatter.value.logo
+-    ?? frontmatter.value?.blog?.logo
+-    ?? home?.value?.logo
+-    ?? site.value.themeConfig?.logo
+-    ?? '/logo.png'
++  ?? frontmatter.value?.blog?.logo
++  ?? home?.value?.logo
++  ?? site.value.themeConfig?.logo
++  ?? '/logo.png'
+ )
+ const alwaysHide = computed(() => frontmatter.value.blog?.minScreenAvatar === false)
+ </script>
+@@ -23,30 +23,30 @@ const alwaysHide = computed(() => frontmatter.value.blog?.minScreenAvatar === fa
+ 
+ <style lang="scss" scoped>
+ .blog-home-header-avatar {
+-    padding-top: 40px;
+-    display: flex;
+-    align-items: center;
++  padding-top: 40px;
++  display: flex;
++  align-items: center;
+ 
+-    img {
+-        display: block;
+-        margin: 0 auto;
+-        width: 130px;
+-        height: 130px;
+-        border-radius: 50%;
+-        background-color: transparent;
+-        border: 5px solid rgba(var(--bg-gradient-home));
+-        box-sizing: border-box;
+-    }
++  img {
++    display: block;
++    margin: 0 auto;
++    width: 130px;
++    height: 130px;
++    border-radius: 50%;
++    background-color: transparent;
++    border: 5px solid rgba(var(--bg-gradient-home));
++    box-sizing: border-box;
++  }
+ 
+-    img:hover {
+-        transform: rotate(666turn);
+-        transition-duration: 59s;
+-        transition-timing-function: cubic-bezier(.34, 0, .84, 1)
+-    }
++  img:hover {
++    transform: rotate(666turn);
++    transition-duration: 59s;
++    transition-timing-function: cubic-bezier(.34, 0, .84, 1)
++  }
+ }
+ 
+ @media screen and (min-width: 768px) {
+-  .blog-home-header-avatar{
++  .blog-home-header-avatar {
+     display: none;
+   }
+ }

@@ -1,12 +1,14 @@
 {
   "devDependencies": {
+    "patch-package": "^8.0.0",
     "sass": "^1.90.0",
     "vitepress": "^1.6.4"
   },
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
-    "preview": "vitepress preview docs"
+    "preview": "vitepress preview docs",
+    "postinstall":"patch-package"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
