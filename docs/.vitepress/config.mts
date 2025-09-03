@@ -55,6 +55,7 @@ export default defineConfig({
         items: [
           { text: "博客创建", link: `/pages/notice/quickStart` },
           { text: "工具推荐", link: `/pages/notice/tool` },
+          { text: "依赖补丁", link: `/pages/notice/patch-package` },
         ],
       },
       {
