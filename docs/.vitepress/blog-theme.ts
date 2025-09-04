@@ -47,6 +47,31 @@ const blogTheme = getThemeConfig({
           },
         ],
       },
+      {
+        title: "案例demo",
+        description: "项目遇到的一些有趣的案例",
+        time: {
+          start: "2023/05",
+        },
+        status: {
+          text: "demo",
+        },
+        cover: [
+          "https://free.picui.cn/free/2025/09/04/68b9ab4ccf7e6.jpg",
+          "https://free.picui.cn/free/2025/09/04/68b9ab4d009f1.jpg",
+        ],
+        tags: ["Vitepress", "Vue"],
+        links: [
+          {
+            title: "冒泡交融css动画",
+            url: "https://github.com/ht-boot/demo/tree/main/animation",
+          },
+          {
+            title: "svg描边动画",
+            url: "https://github.com/ht-boot/demo/tree/main/animation",
+          },
+        ],
+      },
     ],
   },
   // 开启RSS支持
