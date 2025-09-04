@@ -17,9 +17,40 @@ import { getThemeConfig } from "@sugarat/theme/node";
 
 // 所有配置项，详见文档: https://theme.sugarat.top/
 const blogTheme = getThemeConfig({
+  works: {
+    title: "个人项目/线上作品",
+    description: "记录开发的点点滴滴",
+    topTitle: "举些🌰",
+    list: [
+      {
+        title: "个人博客",
+        description: "基于 vitepress 实现的博客",
+        time: {
+          start: "2025/08",
+        },
+        status: {
+          text: "blog",
+        },
+        cover: [
+          "https://free.picui.cn/free/2025/09/04/68b9a75e169c0.jpg",
+          "https://free.picui.cn/free/2025/09/04/68b9a75d18349.jpg",
+        ],
+        tags: ["Vitepress", "Vue"],
+        links: [
+          {
+            title: "基于 vitepress 实现的博客",
+            url: "https://github.com/ht-boot/ht-boot.github.io/",
+          },
+          {
+            title: "主题 @sugarat/theme",
+            url: "https://github.com/ATQQ/sugar-blog/tree/master/packages",
+          },
+        ],
+      },
+    ],
+  },
   // 开启RSS支持
   // RSS,
-
   // 搜索
   // 默认开启pagefind离线的全文搜索支持（如使用其它的可以设置为false）
   // search: false,
@@ -30,7 +61,7 @@ const blogTheme = getThemeConfig({
   // 页脚
   footer: {
     // message 字段支持配置为HTML内容，配置多条可以配置为数组
-    // message: "下面 的内容和图标都是可以修改的噢（当然本条内容也是可以隐藏的）",
+    // message: "©2023 taQ | vitepress",
     copyright: "MIT License",
   },
 

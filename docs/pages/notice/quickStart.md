@@ -129,7 +129,7 @@ pnpm run docs:dev
 :::
 
 你就会得到一个这样的页面
-![alt text](image.png)
+![alt text](https://free.picui.cn/free/2025/09/04/68b9a8a0c57f1.png)
 
 ## 使用主题
 
@@ -219,7 +219,7 @@ export default defineUserConfig({
 ```
 
 重新运行项目后就可以得到一个这样的页面
-![alt text](image-1.png)
+![alt text](https://free.picui.cn/free/2025/09/04/68b9a75e169c0.jpg)
 
 ### 项目部署
 
