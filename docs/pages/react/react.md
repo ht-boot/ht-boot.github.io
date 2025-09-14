@@ -1,14 +1,14 @@
 ---
 sidebar: true
-title: react
+title: React
 outline: deep
-description: react 学习记录, 常用hooks集合。
-tags: react
+description: React 学习记录, 常用hooks集合。
+tags: React
 ---
 
 # React
 
-react 学习记录。
+React 学习记录。
 
 ## React Hooks
 
@@ -25,7 +25,7 @@ const [state, setState] = useState(initialState);
 代码实例
 
 ```js [index.tsx]
-import React, { useState } from "react";
+import React, { useState } from "React";
 
 const Counter = () => {
   const [count, setCount] = useState(0);
@@ -111,7 +111,7 @@ useEffect(() => {
 ### useEffect 清除副作用代码实例
 
 ```js [index.tsx]
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "React";
 
 export default function Counter() {
   const [count, setCount] = useState(0);
@@ -144,7 +144,7 @@ export default function Counter() {
 代码实例
 
 ```js [index.tsx]
-import React, { useRef } from "react";
+import React, { useRef } from "React";
 
 export default function FocusButton() {
   const inputEl = useRef(null);
@@ -186,7 +186,7 @@ const [state, dispatch] = useReducer(reducer, initialState, init);
 代码实例
 
 ```js [index.tsx]
-import { useReducer } from "react";
+import { useReducer } from "React";
 
 type ActionType = "increment" | "decrement" | "reset";
 
@@ -249,7 +249,7 @@ const memoizedCallback = useCallback(() => {
 1. 传递给子组件的回调函数
 
 ```js [index.tsx]
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from "React";
 import Button from "./components/Button";
 
 export default function App() {
@@ -287,7 +287,7 @@ export default function App() {
 }
 
 
-import React from "react";
+import React from "React";
 
 interface ButtonProps {
   onClickButton: () => void;
@@ -349,4 +349,4 @@ const result = useMemo(() => expensiveComputation(num), [num]);
 
 ## 参考
 
-- [React 官方文档](https://reactjs.org/docs/getting-started.html)
+- [React 官方文档](https://Reactjs.org/docs/getting-started.html)

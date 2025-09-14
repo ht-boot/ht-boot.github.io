@@ -109,7 +109,7 @@ const blogTheme = getThemeConfig({
   footer: {
     // message 字段支持配置为HTML内容，配置多条可以配置为数组
     // message: "©2023 taQ | vitepress",
-    copyright: "MIT License",
+    copyright: "MIT License @vitepress",
   },
 
   // 主题色修改

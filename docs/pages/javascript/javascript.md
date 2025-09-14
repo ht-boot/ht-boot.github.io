@@ -1,12 +1,12 @@
 ---
 sidebar: true
-title: javascript
+title: JavaScript
 tags: js
 ---
 
 # JavaScript 知识记录
 
-::: info
+:::tip tips
 对 JavaScript 学习的零碎记录。
 :::
 

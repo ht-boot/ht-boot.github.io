@@ -61,10 +61,10 @@ export default defineConfig({
       {
         text: "前端",
         items: [
-          { text: "typescript", link: `/pages/typescript/typescript` },
-          { text: "javascript", link: `/pages/javascript/javascript` },
-          { text: "react", link: `/pages/react/react` },
-          { text: "vue", link: `/pages/vue/vue` },
+          { text: "JavaScript", link: `/pages/javascript/javascript` },
+          { text: "TypeScript", link: `/pages/typescript/typescript` },
+          { text: "React", link: `/pages/react/react` },
+          { text: "Vue", link: `/pages/vue/vue` },
         ],
       },
     ],
