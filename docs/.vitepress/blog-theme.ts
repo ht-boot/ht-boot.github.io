@@ -23,6 +23,28 @@ const blogTheme = getThemeConfig({
     topTitle: "举些🌰",
     list: [
       {
+        title: "音乐桌面应用",
+        description:
+          "桌面应用,基于 electron、vite、react、typescript、antd实现的一个简易音乐平台，支持播放、暂停、上一曲、下一曲、音量调节、歌词展示、播放进度条、播放列表等功能。其余功能会在后续慢慢完善",
+        time: {
+          start: "2025/08",
+        },
+        status: {
+          text: "demo",
+        },
+        cover: [
+          "https://free.picui.cn/free/2025/09/14/68c6984321f7a.jpg",
+          "https://free.picui.cn/free/2025/09/14/68c6992261fa3.jpg",
+        ],
+        tags: ["electron", "react", "typescript"],
+        links: [
+          {
+            title: "electron、vite、react音乐桌面应用",
+            url: "https://github.com/ht-boot/electron-app",
+          },
+        ],
+      },
+      {
         title: "个人博客",
         description: "基于 vitepress 实现的博客",
         time: {

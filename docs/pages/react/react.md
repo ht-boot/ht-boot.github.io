@@ -2,7 +2,7 @@
 sidebar: true
 title: react
 outline: deep
-description: react 学习记录。
+description: react 学习记录, 常用hooks集合。
 tags: react
 ---
 
