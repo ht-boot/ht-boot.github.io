@@ -1,9 +1,9 @@
 ---
-title: 基于 Proxy 的 Vue3 v-model 双向绑定封装
+title: v-model 双向绑定封装
 outline: deep
-author: ht
 date: 2023-05-16
 tags: vue
+sidebar: true
 ---
 
 # 背景
