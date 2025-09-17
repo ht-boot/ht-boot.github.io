@@ -233,6 +233,120 @@ function doWatch(source, cb, options = {}) {
 }
 ```
 
-### 总结
+#### 总结
 
-`watch` 的核心就是把用户传入的各种 `source（ref/reactive/函数/数组`）统一包装成一个 `getter` 函数，把这个 `getter` 放到一个 `ReactiveEffect` 里运行以收集依赖，并且在依赖变化时调用 `effect.scheduler()`，scheduler 决定何时把 job 排入队列（sync/pre/post）,然后执行 job 拿到 `newValue`，与 `oldValue` 比较后决定是否调用用户的回调（同时处理 `cleanup、immediate、flush、deep` 等选项）。
+<!-- `watch` 的核心就是把用户传入的各种 `source（ref/reactive/函数/数组`）统一包装成一个 `getter` 函数，把这个 `getter` 放到一个 `ReactiveEffect` 里运行以收集依赖，并且在依赖变化时调用 `effect.scheduler()`，scheduler 决定何时把 job 排入队列（sync/pre/post）,然后执行 job 重新运行 getter 拿到 `newValue`，与 `oldValue` 比较后决定是否调用用户的回调（同时处理 `cleanup、immediate、flush、deep` 等选项）。 -->
+
+1.  **统一包装 source → getter**
+
+    - `watch` 确实会把各种形式的 `source`（`ref` / `reactive` / `getter 函数` / `数组`）统一转成一个标准的 `getter`。
+    - 对象的话会递归收集依赖（`deep: true`）。
+
+2.  **ReactiveEffect 运行 getter 收集依赖**
+
+    - `effect = new ReactiveEffect(getter, scheduler)`，第一次执行的时候会 track 依赖。
+
+3.  **依赖变化时调用 scheduler**
+
+    - `trigger` → 调用依赖的 `effect.scheduler()` → 把 `job` 推到队列。
+
+4.  **scheduler 控制 job 进入队列的时机**
+
+    - `flush: 'pre' | 'post' | 'sync'` 就是这里生效的：
+
+      - `sync`：同步执行
+      - `pre`：放到渲染前队列
+      - `post`：放到渲染后队列
+
+5.  **job 执行逻辑：运行 getter 拿到新值 → 比较 oldValue → 调用用户回调**
+
+    - 对应源码里的 `job = () => { runGetter; if (hasChanged) cb(newVal, oldVal, onCleanup) }`
+
+6.  **cleanup / immediate / deep 等选项**
+
+    - `immediate`：首次直接触发回调
+    - `cleanup`：通过 `onCleanup(fn)` 注册销毁函数
+    - `deep`：通过 `traverse` 递归访问对象，强制依赖收集”
+
+### computed 源码
+
+源码文件：[https://github.com/vuejs/core/blob/main/packages/reactivity/src/computed.ts](https://github.com/vuejs/core/blob/main/packages/reactivity/src/computed.ts)
+
+computed 就是一个带有缓存的响应式 ref：
+
+```ts
+export function computed(getterOrOptions) {
+  let getter, setter;
+  // 如果传的是函数，就认为是一个只读的 computed
+  if (isFunction(getterOrOptions)) {
+    getter = getterOrOptions;
+    setter = __DEV__
+      ? () => {
+          console.warn("Write operation failed: computed value is readonly");
+        }
+      : NOOP;
+  } else {
+    // 如果传的是 { get, set }，就保存两个方法
+    getter = getterOrOptions.get;
+    setter = getterOrOptions.set;
+  }
+  // 返回 ComputedRefImpl 实例
+  return new ComputedRefImpl(
+    getter,
+    setter,
+    isFunction(getterOrOptions) || !getterOrOptions.set
+  );
+}
+```
+
+ComputedRefImpl 类
+
+```ts
+class ComputedRefImpl<T> {
+  private _value!: T; // 缓存计算结果
+  private _dirty = true; // 是否需要重新计算。初始化为 true。
+  public readonly effect: ReactiveEffect<T>; // 内部的 ReactiveEffect，包装用户 getter。
+
+  constructor(
+    getter: () => T,
+    private readonly _setter: (v: T) => void,
+    isReadonly: boolean
+  ) {
+    /**
+     * 创建了一个 惰性 effect，里面存 getter 和 scheduler。
+     * scheduler（）：当依赖变化时，会调用 effect.run()，重新计算值，并标记 dirty 为 false。
+     */
+    this.effect = new ReactiveEffect(getter, () => {
+      if (!this._dirty) {
+        this._dirty = true;
+        trigger(this, TriggerOpTypes.SET, "value"); // 触发依赖
+      }
+    });
+    this.effect.computed = this; // 让 effect 知道自己是为 computed 服务的
+    this.effect.active = true; // 激活 effect，使其能收集依赖
+    this.__v_isReadonly = isReadonly; // 标记 computed 是否只读。
+    this.__v_isRef = true; // 标记这是一个 ref
+  }
+
+  get value() {
+    track(this, TrackOpTypes.GET, "value"); // 收集依赖
+    //dirty = true 需要重新计算 getter
+    if (this._dirty) {
+      this._dirty = false;
+      this._value = this.effect.run(); // 执行 getter 并缓存结果
+    }
+    return this._value; // dirty = false → 缓存仍然有效，直接返回上次的结果。
+  }
+
+  set value(newValue: T) {
+    this._setter(newValue); // 调用用户传入的 setter
+  }
+}
+```
+
+#### 总结
+
+1. **初始化**：创建 `ComputedRefImpl`，并创建一个 惰性 effect，不立即执行 getter， 收集依赖 track。
+2. **第一次访问 `.value`**：标记 dirty = false 执行 run getter ， 拿到结果并缓存。
+3. **依赖变化**：getter 依赖的响应式数据触发 `trigger`。
+4. **再次访问 `.value`**：dirty = true → 重新执行 getter → 拿到新值 → 返回新值。

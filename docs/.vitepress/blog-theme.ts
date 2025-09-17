@@ -20,7 +20,6 @@ const blogTheme = getThemeConfig({
   works: {
     title: "个人项目/线上作品",
     description: "记录开发的点点滴滴",
-    topTitle: "举些🌰",
     list: [
       {
         title: "音乐桌面应用",
@@ -30,7 +29,7 @@ const blogTheme = getThemeConfig({
           start: "2025/08",
         },
         status: {
-          text: "demo",
+          text: "app",
         },
         cover: [
           "https://free.picui.cn/free/2025/09/14/68c6984321f7a.jpg",
