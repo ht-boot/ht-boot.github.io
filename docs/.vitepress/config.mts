@@ -65,6 +65,7 @@ export default defineConfig({
           { text: "TypeScript", link: `/pages/typescript/typescript` },
           { text: "React", link: `/pages/react/react` },
           { text: "Vue", link: `/pages/vue/vue` },
+          { text: "Nuxt", link: `/pages/nuxt/nuxtjs` },
         ],
       },
     ],
