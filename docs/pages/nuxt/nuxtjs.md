@@ -50,7 +50,7 @@ npm run dev
 </template>
 ```
 
-打开浏览器，访问 http://localhost:3000，你将看到渲染的页面。
+打开浏览器，访问 localhost:3000，你将看到渲染的页面。
 
 :::tip Nuxt VS Vue
 
