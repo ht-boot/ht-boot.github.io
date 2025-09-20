@@ -20,13 +20,18 @@ outline: deep
 
 ### Nuxt 的常用目录结构
 
-1. pages/：存放页面组件，Nuxt 会自动根据这些文件生成路由。
+1. pages/：存放页面组件，Nuxt 会自动根据这些文件生成路由（app/router.options.ts 会覆盖 Nuxt 原路由）。
 2. layouts/：定义页面的布局，所有页面都会使用的默认布局，可以为特定页面选择不同的布局。
-3. components/：存放可复用的组件。
-4. store/：用于 Vuex 状态管理的目录。
-5. plugins/：存放需要在 Vue 实例中引入的插件。
-6. assets/：存放静态资源（如图片、样式、字体等），会被 Webpack 处理。
-7. static/：存放不需要 Webpack 处理的静态资源，如直接放置的图片、字体等。
+3. public/：存放静态资源，如图片、字体等（Nuxt2 被称为 static/目录）。
+4. middleware/：存放中间件，用于路由权限问题。
+5. components/：存放可复用的组件， Nuxt 会自动扫描这些目录中的文件进行注册，可直接使用。
+6. plugins/：存放需要在 Vue 实例中引入的插件。
+7. server/：存放服务器相关的配置文件，Nuxt 会自动扫描这些目录中的文件，以注册 API 和服务端处理器，并支持热模块替换（HMR）。
+8. /server/middleware/：服务端中间件，Nuxt 会自动读取 ~/server/middleware 目录中的文件，为您的项目创建服务端中间件。服务端中间件会在每个请求到达其他服务端路由之前运行，用于添加或检查请求头、记录请求，或扩展事件请求对象。
+
+   ......
+
+更多目录结构详情请参考 [Nuxt.js 官方文档](https://nuxt.com.cn/docs/4.x/guide/directory-structure/app/assets)。
 
 ### 创建 Nuxt 应用
 
