@@ -1,7 +1,7 @@
 ---
 title: vue 响应式原理
 outline: deep
-date: 2022-02-13
+date: 2022-02-16
 tags: vue
 sidebar: true
 ---
@@ -180,7 +180,7 @@ class Dependency {
 }
 ```
 
-### 5. 观察者 (Watcher)
+### 5. 订阅者 (Watcher)
 
 ```js
 /**
@@ -223,7 +223,233 @@ class Watcher {
 
 ## vue3 响应式原理
 
-vue3 响应式原理主要分为以下几个步骤：
+代码分析
 
-1. 通过 `Proxy` 对数据进行劫持，监听数据的变化
-2. 当数据发生变化时，通知视图进行更新
+```js
+const reactive = (obj) => {
+  return new Proxy(obj, {
+    get(target, key, receiver) {
+      console.log("读取属性", target, key);
+      // 收集依赖
+      track(target, key);
+      return Reflect.get(target, key, receiver);
+    },
+    set(target, key, value, receiver) {
+      console.log("修改属性", key, value);
+      const result = Reflect.set(target, key, value, receiver);
+      // 通知依赖更新
+      trigger(target, key);
+      return result;
+    },
+  });
+};
+
+// WeakMap 保存每个对象对应的依赖
+const targetMap = new WeakMap();
+// 收集依赖
+/**
+ * 用于追踪依赖关系的函数
+ * @param {Object} target - 目标对象
+ * @param {String|Symbol} key - 目标对象的属性键
+ */
+function track(target, key) {
+  if (!activeEffect) return; // 没有正在执行的 effect，则不收集
+
+  let depsMap = targetMap.get(target);
+
+  if (!depsMap) {
+    depsMap = new Map();
+    targetMap.set(target, depsMap);
+  }
+
+  let dep = depsMap.get(key);
+  if (!dep) {
+    dep = new Set();
+    depsMap.set(key, dep);
+  }
+
+  dep.add(activeEffect); // 收集依赖
+}
+// 通知依赖更新
+/**
+ * 触发目标对象上指定属性的依赖函数
+ * @param {Object} target - 目标对象
+ * @param {String|Symbol} key - 目标对象的属性键
+ */
+function trigger(target, key) {
+  // 从targetMap中获取目标对象的依赖映射表
+  const depsMap = targetMap.get(target);
+
+  // 如果目标对象没有依赖映射表，则直接返回
+  if (!depsMap) return;
+
+  // 从依赖映射表中获取指定属性的依赖集合
+  const dep = depsMap.get(key);
+
+  // 如果存在依赖集合，则遍历并执行其中的每个依赖函数
+  if (dep) {
+    dep.forEach((effect) => effect()); // 执行依赖函数
+  }
+}
+
+let activeEffect;
+// effect 函数，用于包裹需要自动更新的函数
+function effect(fn) {
+  activeEffect = fn;
+  fn(); // 执行一次，触发 getter 收集依赖
+  activeEffect = null;
+}
+
+// 使用
+const state = reactive({ count: 0 });
+effect(() => {
+  console.log("count is", state.count);
+});
+// state.count++; // 自动触发 effect，打印更新
+```
+
+### 1. Proxy 代理数据
+
+```js
+const reactive = (obj) => {
+  return new Proxy(obj, {
+    get(target, key, receiver) {
+      console.log("读取属性", target, key);
+      track(target, key); // 收集依赖
+      return Reflect.get(target, key, receiver);
+    },
+    set(target, key, value, receiver) {
+      console.log("修改属性", key, value);
+      const result = Reflect.set(target, key, value, receiver);
+      trigger(target, key); // 触发依赖更新
+      return result;
+    },
+  });
+};
+```
+
+:::info Proxy 代理数据
+访问属性时 → get 被拦截 → track 收集依赖。
+
+修改属性时 → set 被拦截 → trigger 通知依赖执行。
+:::
+
+### 2. 依赖收集
+
+#### 1. 依赖存储结构
+
+WeakMap: target → Map(key → Set(effect))
+
+```js
+// WeakMap 保存每个对象对应的依赖
+const targetMap = new WeakMap();
+```
+
+**层级关系：**
+
+- targetMap：不同对象的依赖集合（WeakMap 确保垃圾回收）。
+
+- depsMap：某个对象对应的属性依赖（Map）。
+
+- dep：某个属性对应的所有 effect（Set）。
+
+#### 2. track 收集依赖
+
+```js
+// 收集依赖
+/**
+ * 用于追踪依赖关系的函数
+ * @param {Object} target - 目标对象
+ * @param {String|Symbol} key - 目标对象的属性键
+ */
+function track(target, key) {
+  if (!activeEffect) return; // 没有正在执行的 effect，则不收集
+
+  let depsMap = targetMap.get(target);
+
+  if (!depsMap) {
+    depsMap = new Map();
+    targetMap.set(target, depsMap);
+  }
+
+  let dep = depsMap.get(key);
+  if (!dep) {
+    dep = new Set();
+    depsMap.set(key, dep);
+  }
+
+  dep.add(activeEffect); // 收集依赖
+}
+```
+
+只有在 effect 正在执行时（activeEffect 不为 null），才会收集依赖。  
+每个属性都能收集多个 effect（比如一个属性在多个地方被用到）。
+
+### 3. trigger（触发依赖）
+
+```js
+function trigger(target, key) {
+  // 从targetMap中获取目标对象的依赖映射表
+  const depsMap = targetMap.get(target);
+
+  // console.log(depsMap, targetMap, key, "trigger");
+
+  // 如果目标对象没有依赖映射表，则直接返回
+  if (!depsMap) return;
+
+  // 从依赖映射表中获取指定属性的依赖集合
+  const dep = depsMap.get(key);
+
+  // 如果存在依赖集合，则遍历并执行其中的每个依赖函数
+  if (dep) {
+    dep.forEach((effect) => effect()); // 执行依赖函数
+  }
+}
+```
+
+当某个属性更新时，找到对应的 Set(effect)，然后执行里面所有 effect。
+
+### 4. effect（副作用函数）
+
+```js
+function effect(fn) {
+  activeEffect = fn;
+  fn(); // 首次执行 -> 触发 getter -> track 收集依赖
+  activeEffect = null;
+}
+```
+
+:::info effect
+进入 effect 时设置 activeEffect,指模板渲染 (组件渲染函数)、用户定义的 watch / watchEffect / computed。  
+执行 fn → 访问响应式数据 → get → track 收集依赖。  
+最后清空 activeEffect。
+:::
+
+### 5. 使用
+
+```js
+const state = reactive({ count: 0 });
+
+effect(() => {
+  console.log("count is", state.count);
+});
+
+state.count++; // 修改时 -> trigger -> 执行 effect
+```
+
+:::info 执行流程：
+
+effect 执行时访问 state.count → get → track 收集依赖。
+
+state.count++ → set → trigger → 执行 effect。
+
+打印最新的 count。
+:::
+
+:::tip 注意 ⚠️
+这就是最小版 Vue3 响应式的核心原理！,还缺少 `scheduler`、嵌套 effect 栈等功能。
+:::
+
+### 总结
+
+一句话： 数据通过 Proxy 拦截对象属性的 读取 (get) 和 修改 (set)，实现依赖收集 (track) 与派发更新 (trigger)。数据变动时，触发 effect 重新执行。

@@ -1,7 +1,7 @@
 ---
 title: computed和watch
 outline: deep
-date: 2022-02-16
+date: 2022-02-13
 tags: vue
 sidebar: true
 ---
@@ -242,11 +242,11 @@ function doWatch(source, cb, options = {}) {
     - `watch` 确实会把各种形式的 `source`（`ref` / `reactive` / `getter 函数` / `数组`）统一转成一个标准的 `getter`。
     - 对象的话会递归收集依赖（`deep: true`）。
 
-2.  **ReactiveEffect 运行 getter 收集依赖**
+2.  **实例化 ReactiveEffect ， 访问 getter 收集依赖（访问响应式数据时完成依赖收集）**
 
-    - `effect = new ReactiveEffect(getter, scheduler)`，第一次执行的时候会 track 依赖。
+    - `effect = new ReactiveEffect(getter, scheduler)`，访问响应式数据时完成依赖收集(track)。
 
-3.  **依赖变化时调用 scheduler**
+3.  **依赖变化时调用 effect.scheduler**
 
     - `trigger` → 调用依赖的 `effect.scheduler()` → 把 `job` 推到队列。
 
@@ -268,7 +268,7 @@ function doWatch(source, cb, options = {}) {
     - `cleanup`：通过 `onCleanup(fn)` 注册销毁函数
     - `deep`：通过 `traverse` 递归访问对象，强制依赖收集”
 
-### computed 源码
+### computed 源码（简化版）
 
 源码文件：[https://github.com/vuejs/core/blob/main/packages/reactivity/src/computed.ts](https://github.com/vuejs/core/blob/main/packages/reactivity/src/computed.ts)
 
