@@ -94,8 +94,8 @@ const { data } = await useFetch("/api/posts", {
 
 ## 2. useAsyncData
 
-`useAsyncData` 在 SSR 阶段 或 客户端 执行异步请求，并且会把结果缓存起来，避免重复请求。
-`useFetch` 只能做 HTTP 请求, `useAsyncData` 可以做任何异步操作(例如$fetch、axios、数据库调用、文件读取……)。
+`useAsyncData` 在 SSR 阶段 或 客户端 执行异步请求，并且会把结果缓存起来，避免重复请求。  
+`useAsyncData` 可以做任何异步操作(例如$fetch、axios、数据库调用、文件读取……)。
 
 ```vue
 <script setup lang="ts">
@@ -127,7 +127,3 @@ useAsyncData(key, fetcher, options) 参数说明：
   - transform: (res) => res.data, // 转换响应数据
   - pick: ['title'], // 只保留返回对象中的某些字段
   - watch: [() => query.value] // 依赖变化时重新执行
-
-```js
-
-```
