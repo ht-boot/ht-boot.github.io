@@ -68,6 +68,10 @@ export default defineConfig({
           { text: "Nuxt", link: `/pages/nuxt/nuxtjs` },
         ],
       },
+      {
+        text: "服务",
+        items: [{ text: "Nginx", link: `/pages/nginx/nginx` }],
+      },
     ],
     socialLinks: [
       {
