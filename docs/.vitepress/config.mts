@@ -33,6 +33,19 @@ export default defineConfig({
         content: "HTML, CSS, JavaScript, vue, vitepress, vuepress, 博客, blog",
       },
     ],
+    [
+      "script",
+      {
+        async: "true",
+        src: "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js",
+      },
+    ],
+    [
+      "meta",
+      {
+        "http-equiv": "Cache-Control",
+      },
+    ],
   ],
   themeConfig: {
     // 展示 2,3 级标题在目录中

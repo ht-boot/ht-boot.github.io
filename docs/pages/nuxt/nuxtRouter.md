@@ -140,12 +140,7 @@ export default {
 
 #### 2. 保留 Nuxt 自动路由 + 动态追加
 
-如果想继续用 pages/ 的自动路由，但又要支持 动态添加路由（比如后台返回菜单配置），可以用 Vue Router API：
-:::
-
-#### 2. 保留 Nuxt 自动路由 + 动态追加
-
-如果想继续用 pages/ 的自动路由，但又要支持 动态添加路由（比如后台返回菜单配置），可以用 Vue Router API：
+如果想继续用 pages/ 的自动路由，但又要支持 动态添加路由（比如后台返回菜单配置），可以用 Vue Router API
 
 在插件里创建路由 plugins/router.client.ts
 
