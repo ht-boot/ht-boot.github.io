@@ -35,10 +35,7 @@ export default defineConfig({
     ],
     [
       "script",
-      {
-        async: "true",
-        src: "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js",
-      },
+      { src: "https://hm.baidu.com/hm.js?b6f28ce42f6d0830330e567be1b0ceac" },
     ],
     [
       "meta",
