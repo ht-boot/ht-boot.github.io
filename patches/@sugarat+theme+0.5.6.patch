@@ -1,8 +1,66 @@
+diff --git a/node_modules/@sugarat/theme/src/components/BlogApp.vue b/node_modules/@sugarat/theme/src/components/BlogApp.vue
+index 17a5147..ac666b5 100644
+--- a/node_modules/@sugarat/theme/src/components/BlogApp.vue
++++ b/node_modules/@sugarat/theme/src/components/BlogApp.vue
+@@ -35,6 +35,9 @@ const openTransition = useDarkTransitionConfig()
+ </script>
+ 
+ <template>
++  <div style="color:blue;font-size:24px;position:fixed;top:50px;left:50px;z-index:9999">
++    DEBUG TEST
++  </div>
+   <Layout :class="{ 'blog-theme-layout': openTransition }">
+     <template #layout-top>
+       <slot name="layout-top" />
+@@ -69,11 +72,9 @@ const openTransition = useDarkTransitionConfig()
+           <div class="blog-list-wrapper">
+             <BlogList />
+           </div>
+-          <div
+-            :class="{
+-              'normal-mode': blogInfoCollapsible,
+-            }" class="blog-info-wrapper"
+-          >
++          <div :class="{
++            'normal-mode': blogInfoCollapsible,
++          }" class="blog-info-wrapper">
+             <BlogHomeInfo />
+           </div>
+         </div>
+diff --git a/node_modules/@sugarat/theme/src/components/BlogBackToTop.vue b/node_modules/@sugarat/theme/src/components/BlogBackToTop.vue
+index 9eb2d85..06ccf71 100644
+--- a/node_modules/@sugarat/theme/src/components/BlogBackToTop.vue
++++ b/node_modules/@sugarat/theme/src/components/BlogBackToTop.vue
+@@ -30,10 +30,8 @@ const iconSVGStr = computed(() => backToTopConfig?.value?.icon)
+     <span class="icon-wrapper" @click="handleBackRoTop">
+       <Icon :size="20" :icon="iconSVGStr">
+         <svg width="512" height="512" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+-          <path
+-            fill="currentColor"
+-            d="m20 22l-3.86-1.55c.7-1.53 1.2-3.11 1.51-4.72zM7.86 20.45L4 22l2.35-6.27c.31 1.61.81 3.19 1.51 4.72M12 2s5 2 5 10c0 3.1-.75 5.75-1.67 7.83A2 2 0 0 1 13.5 21h-3a2 2 0 0 1-1.83-1.17C7.76 17.75 7 15.1 7 12c0-8 5-10 5-10m0 10c1.1 0 2-.9 2-2s-.9-2-2-2s-2 .9-2 2s.9 2 2 2"
+-          />
++          <path fill="currentColor"
++            d="m20 22l-3.86-1.55c.7-1.53 1.2-3.11 1.51-4.72zM7.86 20.45L4 22l2.35-6.27c.31 1.61.81 3.19 1.51 4.72M12 2s5 2 5 10c0 3.1-.75 5.75-1.67 7.83A2 2 0 0 1 13.5 21h-3a2 2 0 0 1-1.83-1.17C7.76 17.75 7 15.1 7 12c0-8 5-10 5-10m0 10c1.1 0 2-.9 2-2s-.9-2-2-2s-2 .9-2 2s.9 2 2 2" />
+         </svg>
+       </Icon>
+     </span>
 diff --git a/node_modules/@sugarat/theme/src/components/BlogFooter.vue b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
-index bbd5aa1..be399ae 100644
+index bbd5aa1..a06d63d 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 +++ b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
-@@ -19,7 +19,7 @@ const renderData = computed(() => {
+@@ -1,9 +1,10 @@
+ <script setup lang="ts">
+ import { computed } from 'vue'
+ import { useHomeFooterConfig } from '../composables/config/blog'
+-import packageJSON from '../../package.json'
+ import { copyrightSVG, icpSVG, themeSVG } from '../constants/svg'
+ import { vOuterHtml } from '../directives'
++import { useData } from 'vitepress'
++import CommentGiscus from './CommentGiscus.vue'
+ 
+ const footerConfig = useHomeFooterConfig()
+ 
+@@ -19,7 +20,7 @@ const renderData = computed(() => {
        name: string
        link?: string
        icon?: string | boolean
@@ -11,7 +69,7 @@ index bbd5aa1..be399ae 100644
      // message
      const messageData = [message || []].flat()
      const bottomMessageData = [bottomMessage || []].flat()
-@@ -28,12 +28,6 @@ const renderData = computed(() => {
+@@ -28,12 +29,6 @@ const renderData = computed(() => {
      const isLast = idx === flatData.length - 1
      if ((version !== false && isLast) || version) {
        const versionItem = typeof version === 'object' ? version : {}
@@ -24,13 +82,19 @@ index bbd5aa1..be399ae 100644
      }
      // copyright
      if (typeof copyright === 'string') {
-@@ -111,6 +105,9 @@ const renderData = computed(() => {
+@@ -84,7 +79,6 @@ const renderData = computed(() => {
+   })
+ })
+ </script>
+-
+ <template>
+   <footer v-if="renderData.length" class="blog-footer">
+     <!-- eslint-disable vue/require-v-for-key -->
+@@ -111,6 +105,7 @@ const renderData = computed(() => {
        </p>
        <!-- 在内置的footer下方渲染 -->
        <p v-for="message in bottomMessageData" v-html="message" />
-+      <span id="busuanzi_container_site_pv" style="font-size: 14px; color: var(--vp-c-text-2);font-weight: bold;">
-+        本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
-+      </span>
++      <CommentGiscus />
      </template>
    </footer>
  </template>
@@ -109,6 +173,24 @@ index 1a61ae2..38e806e 100644
      display: none;
    }
  }
+diff --git a/node_modules/@sugarat/theme/src/components/CommentGiscus.vue b/node_modules/@sugarat/theme/src/components/CommentGiscus.vue
+index a36fef2..11ff2dc 100644
+--- a/node_modules/@sugarat/theme/src/components/CommentGiscus.vue
++++ b/node_modules/@sugarat/theme/src/components/CommentGiscus.vue
+@@ -38,11 +38,9 @@ watch(
+ </script>
+ 
+ <template>
+-  <Giscus
+-    v-if="commentConfig && showComment" :repo="commentConfig.repo" :repo-id="commentConfig.repoId"
++  <Giscus v-if="commentConfig && showComment" :repo="commentConfig.repo" :repo-id="commentConfig.repoId"
+     :category="commentConfig.category" :category-id="commentConfig.categoryId"
+     :mapping="commentConfig.mapping || 'pathname'" reactions-enabled="1" emit-metadata="0"
+     :input-position="commentConfig.inputPosition || 'top'" :theme="isDark ? 'dark' : 'light'"
+-    :lang="commentConfig.lang || 'zh-CN'" :loading="commentConfig.loading || 'eager'"
+-  />
++    :lang="commentConfig.lang || 'zh-CN'" :loading="commentConfig.loading || 'eager'" />
+ </template>
 diff --git a/node_modules/@sugarat/theme/src/components/UserWorks.vue b/node_modules/@sugarat/theme/src/components/UserWorks.vue
 index 32f19c6..774da81 100644
 --- a/node_modules/@sugarat/theme/src/components/UserWorks.vue

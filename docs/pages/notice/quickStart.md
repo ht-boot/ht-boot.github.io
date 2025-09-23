@@ -309,7 +309,7 @@ jobs:
 
 :::
 
-## 升级
+## 升级和扩展
 
 如果主题更新了，升级主题，原项目只需执行如下指令即可
 :::code-group
@@ -322,6 +322,86 @@ pnpm add vitepress@latest
 ```
 
 :::
+
+### 1. 网站访问次数统计器
+
+这里推荐第三方统计服务：
+
+#### 1. [不蒜子 Busuanzi](https://busuanzi.ibruce.info/)
+
+示例（用 Busuanzi，最简单）：
+
+```ts [docs/.vitepress/config.mts]
+export default defineConfig({
+  head: [
+    [
+      "script",
+      {
+        async: "true",
+        src: "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js",
+      },
+    ],
+  ],
+});
+```
+
+然后在自定义主题里加：
+
+```md
+<span id="busuanzi_container_site_pv">
+  本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+</span>
+```
+
+这样就可以在页脚看到访问次数了，但是只能获取到总访问数,无法获取其他数据。于是可以使用第二个方案：
+
+#### 2.[百度统计](https://tongji.baidu.com/)
+
+使用方式：
+
+1. 注册 [百度统计](https://tongji.baidu.com/)。
+
+- 获取一段 JS 统计代码。
+- 和 Busuanzi 一样，在 .vitepress/config.ts 里加 head 脚本即可。
+  代码实例如下：
+
+```ts [docs/.vitepress/config.mts]
+export default defineConfig({
+  head: [
+    [
+      "script",
+      { src: "https://hm.baidu.com/hm.js?b6f28ce42f6d0830330e567be1b0ceac" },
+    ],
+  ],
+});
+
+// 或者
+export default defineConfig({
+  head: [
+    [
+      "script",
+      {},
+      `
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?你的追踪ID";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+      `,
+    ],
+  ],
+});
+```
+
+2. 部署并验证
+
+- 重新 vitepress build，然后把 .vitepress/dist/ 上传到 GitHub Pages。
+- 打开博客页面，用浏览器开发者工具 (F12) 查看网络请求，看是否加载了 hm.js。
+- 等 1-2 小时，在 百度统计后台就能看到数据（包括每天多少人访问）。
+
+**你就可以看到：** `PV`（页面浏览量）、`UV`（访客数，每天多少不同的人）、`IP`、`访问来源`（百度、谷歌、直接输入等）、`访问页面路径`、`访问时长等数据了`。
 
 ## 更多
 

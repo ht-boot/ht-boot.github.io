@@ -1,4 +1,4 @@
-import BlogTheme from "@sugarat/theme";
+import { BlogTheme } from "@sugarat/theme";
 
 // 自定义样式重载
 import "./index.scss";
