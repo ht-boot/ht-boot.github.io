@@ -9,17 +9,20 @@ async function fetchBaiduPlugin(startDate?: string) {
     console.warn("⚠️ 缺少 BAIDU_ACCESS_TOKEN 或 BAIDU_SITE_ID 环境变量");
     return;
   }
+  const isDevelopment = process.env.NODE_ENV === "development";
+  const baidu_url =
+    "https://api.baidu.com/json/tongji/v1/ReportService/getData";
 
   const url =
-    `/baidu-api/rest/2.0/tongji/report/getData` +
+    `${
+      isDevelopment ? "/baidu-api/rest/2.0/tongji/report/getData" : baidu_url
+    }` +
     `?access_token=${accessToken}` +
     `&site_id=${siteId}` +
     `&method=source/all/a` +
     `&start_date=${startDate}` +
     `&end_date=${new Date().toISOString().split("T")[0]}` +
     `&metrics=pv_count,visit_count,visitor_count,ip_count`;
-
-  console.log("Fetching Baidu data...");
 
   try {
     const resp = await fetch(url);
