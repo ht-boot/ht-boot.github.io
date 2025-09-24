@@ -1,4 +1,4 @@
-async function fetchBaiduPlugin(startDate?: string) {
+async function fetchBaiduDate(startDate?: string) {
   const refreshToken =
     "122.864fd51c4696859ec222e28e55ef82e8.Y35xBzliGSVSOIED3aRp_vK-UHkvd01SY3QCq7D.1-SMzQ";
   const accessToken =
@@ -10,22 +10,21 @@ async function fetchBaiduPlugin(startDate?: string) {
     return;
   }
   const isDevelopment = process.env.NODE_ENV === "development";
-  const baidu_url =
-    "https://api.baidu.com/json/tongji/v1/ReportService/getData";
 
   const url =
-    `${
-      isDevelopment ? "/baidu-api/rest/2.0/tongji/report/getData" : baidu_url
-    }` +
-    `?access_token=${accessToken}` +
-    `&site_id=${siteId}` +
-    `&method=source/all/a` +
     `&start_date=${startDate}` +
-    `&end_date=${new Date().toISOString().split("T")[0]}` +
-    `&metrics=pv_count,visit_count,visitor_count,ip_count`;
+    `&end_date=${new Date().toISOString().split("T")[0]}`;
 
   try {
-    const resp = await fetch(url);
+    const resp = await fetch(
+      `https://baidu-proxy-gamma.vercel.app/api/baidu?${url}`,
+      {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (!resp.ok) {
       throw new Error(`❌ Baidu API Error: ${resp.status}`);
     }
@@ -38,4 +37,4 @@ async function fetchBaiduPlugin(startDate?: string) {
   }
 }
 
-export default fetchBaiduPlugin;
+export default fetchBaiduDate;
