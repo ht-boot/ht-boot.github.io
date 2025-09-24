@@ -1,6 +1,6 @@
 ---
 sidebar: true
-title: patch-package
+title: 项目补丁
 description: 项目中依赖的包有时候不满足我们的需求，比如需要修复一些 bug，或者增加一些功能。有时候就对 node_modules 中的包进行修改，但是这样修改后，下次更新包的时候，修改的内容就会被覆盖掉。有什么方法可以解决这个问题呢？
 tags: 其他
 ---
