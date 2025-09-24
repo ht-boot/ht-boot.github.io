@@ -1,6 +1,4 @@
 async function fetchBaiduPlugin(startDate?: string) {
-  // 只在 build 阶段运行，避免 dev 时浪费请求
-  // if (process.env.NODE_ENV !== "production") return;
   const refreshToken =
     "122.864fd51c4696859ec222e28e55ef82e8.Y35xBzliGSVSOIED3aRp_vK-UHkvd01SY3QCq7D.1-SMzQ";
   const accessToken =

@@ -1,6 +1,5 @@
-import type { Theme } from "vitepress";
 import { BlogTheme } from "@sugarat/theme";
-import fetchBaiduData from "../../plugins/fetchBaiduData";
+import fetchBaiduData from "../../api/fetchBaiduData";
 // 自定义样式重载
 import "./index.scss";
 
