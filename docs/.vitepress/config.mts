@@ -44,6 +44,17 @@ export default defineConfig({
       },
     ],
   ],
+  vite: {
+    server: {
+      proxy: {
+        "/baidu-api": {
+          target: "https://openapi.baidu.com",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/baidu-api/, ""),
+        },
+      },
+    },
+  },
   themeConfig: {
     // 展示 2,3 级标题在目录中
     outline: {
