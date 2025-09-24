@@ -403,6 +403,83 @@ export default defineConfig({
 
 **你就可以看到：** `PV`（页面浏览量）、`UV`（访客数，每天多少不同的人）、`IP`、`访问来源`（百度、谷歌、直接输入等）、`访问页面路径`、`访问时长等数据了`。
 
+### 2.如何添加评论
+
+这里使用的是 `giscus`，是一个基于 `GitHub Discussions`的评论系统，可以很方便地集成到博客或网站中。
+
+#### 1.如何使用
+
+1. 你需要有一个 GitHub 仓库 来存放评论数据。
+2. 这个仓库必须开启 Discussions 功能（进入仓库 → Settings → Features → 勾选 Discussions）。
+
+#### 2. 安装 giscus 应用
+
+1. 打开 [giscus](https://github.com/apps/giscus)。
+2. 点击 Install，选择要安装到的 GitHub 仓库。
+3. 这样 giscus 就能在你的仓库 Discussions 里创建/读取评论了。
+
+#### 3. 配置 giscus
+
+1. 进入 [giscus](https://giscus.app/zh-CN) 配置页面, 选择你的仓库。
+2. 配置 giscus， 包含页面 discussion 映射关系，Discussion 分类，特性，主题。
+3. 配置好后，页面会自动生成一段 `<script>` 代码，例如：
+
+#### 4. 在博客中添加 giscus
+
+如果你是 `HTML 静态网站` , 直接把生成的 `<script`> 插入到文章末尾或评论区容器处即可。
+
+```js
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id="R_kgDOxxxxxx"
+  data-category="General"
+  data-category-id="DIC_kwDOxxxxxx4CAXxx"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="zh-CN"
+  crossorigin="anonymous"
+  async
+></script>
+```
+
+如果你是 vue/react 等框架，可安装 `@giscus/react` 或 `@giscus/vue`，然后在组件中引入即可。
+
+```sh
+npm i @giscus/react   # for React/Preact
+npm i @giscus/vue     # for Vue
+```
+
+然后，从包中导入默认导出。以 React 为例：
+
+```js
+import Giscus from "@giscus/react";
+
+export default function MyApp() {
+  return (
+    <Giscus
+      id="comments"
+      repo="your-username/your-repo"
+      repoId="R_kgDOxxxxxx"
+      category="Announcements"
+      categoryId="DIC_kwDOxxxxxx4CAXxx"
+      mapping="specific"
+      reactionsEnabled="1"
+      emitMetadata="0"
+      inputPosition="top"
+      theme="light"
+      lang="en"
+      loading="lazy"
+      theme="light"
+    />
+  );
+}
+```
+
 ## 更多
 
 博主是因为想在自己框架的基础上换一个主题才这样做的，所以看起来很麻烦，各位看官的博客若是从头开始的，可以
