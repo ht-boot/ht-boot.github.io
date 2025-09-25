@@ -46,7 +46,7 @@ index 9eb2d85..06ccf71 100644
        </Icon>
      </span>
 diff --git a/node_modules/@sugarat/theme/src/components/BlogFooter.vue b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
-index bbd5aa1..e07952a 100644
+index bbd5aa1..ae4e5e8 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 +++ b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 @@ -1,9 +1,21 @@
@@ -65,10 +65,10 @@ index bbd5aa1..e07952a 100644
 +const visitCurr = inject<Ref<number[][]>>('visitCurr')
 +
 +const count = computed(() => {
-+  return visitCount?.value[0][0] || 98
++  return visitCount?.value[0][0] || 2367
 +})
 +const curr = computed(() => {
-+  return visitCurr?.value[0][0] || 2367
++  return visitCurr?.value[0][0] || 89
 +})
  
  const footerConfig = useHomeFooterConfig()
