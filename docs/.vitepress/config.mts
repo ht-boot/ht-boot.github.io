@@ -91,7 +91,10 @@ export default defineConfig({
       },
       {
         text: "服务",
-        items: [{ text: "Nginx", link: `/pages/nginx/nginx` }],
+        items: [
+          { text: "Nginx", link: `/pages/nginx/nginx` },
+          { text: "vercel", link: `/pages/vercel/vercel` },
+        ],
       },
     ],
     socialLinks: [
