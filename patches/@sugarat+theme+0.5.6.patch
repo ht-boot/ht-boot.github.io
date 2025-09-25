@@ -1,22 +1,60 @@
 diff --git a/node_modules/@sugarat/theme/src/components/BlogApp.vue b/node_modules/@sugarat/theme/src/components/BlogApp.vue
-index 17a5147..8d656fe 100644
+index 17a5147..48753c2 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogApp.vue
 +++ b/node_modules/@sugarat/theme/src/components/BlogApp.vue
-@@ -69,11 +69,9 @@ const openTransition = useDarkTransitionConfig()
-           <div class="blog-list-wrapper">
-             <BlogList />
+@@ -60,24 +60,27 @@ const openTransition = useDarkTransitionConfig()
+     <!-- 自定义首页 -->
+     <template v-if="isBlogTheme" #home-hero-before>
+       <slot name="home-hero-before" />
+-      <div class="home">
+-        <BlogHomeHeaderAvatar />
+-        <div class="header-banner">
+-          <BlogHomeBanner />
+-        </div>
+-        <div class="content-wrapper">
+-          <div class="blog-list-wrapper">
+-            <BlogList />
++      <ClientOnly>
++        <template #fallback>
++          <p>Loading chart...</p>
++        </template>
++        <div class="home">
++          <BlogHomeHeaderAvatar />
++          <div class="header-banner">
++            <BlogHomeBanner />
            </div>
 -          <div
 -            :class="{
--              'normal-mode': blogInfoCollapsible,
++          <div class="content-wrapper">
++            <div class="blog-list-wrapper">
++              <BlogList />
++            </div>
++            <div :class="{
+               'normal-mode': blogInfoCollapsible,
 -            }" class="blog-info-wrapper"
 -          >
-+          <div :class="{
-+            'normal-mode': blogInfoCollapsible,
-+          }" class="blog-info-wrapper">
-             <BlogHomeInfo />
+-            <BlogHomeInfo />
++            }" class="blog-info-wrapper">
++              <BlogHomeInfo />
++            </div>
            </div>
          </div>
+-      </div>
++      </ClientOnly>
+     </template>
+     <template v-if="isBlogTheme" #sidebar-nav-after>
+       <slot name="sidebar-nav-after" />
+@@ -96,7 +99,9 @@ const openTransition = useDarkTransitionConfig()
+       </ClientOnly>
+     </template>
+     <template #layout-bottom>
+-      <BlogFooter v-if="layout === 'home'" />
++      <ClientOnly>
++        <BlogFooter v-if="layout === 'home'" />
++      </ClientOnly>
+       <slot name="layout-bottom" />
+     </template>
+     <!-- 透传默认主题的其它插槽 -->
 diff --git a/node_modules/@sugarat/theme/src/components/BlogBackToTop.vue b/node_modules/@sugarat/theme/src/components/BlogBackToTop.vue
 index 9eb2d85..06ccf71 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogBackToTop.vue

@@ -106,7 +106,6 @@ const blogTheme = getThemeConfig({
       inputPosition: "top",
       mapping: "pathname",
       lang: "zh-CN",
-      loading: "lazy",
     },
   },
   // 开启RSS支持
