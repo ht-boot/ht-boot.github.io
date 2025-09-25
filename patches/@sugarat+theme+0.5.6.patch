@@ -1,50 +1,23 @@
 diff --git a/node_modules/@sugarat/theme/src/components/BlogApp.vue b/node_modules/@sugarat/theme/src/components/BlogApp.vue
-index 17a5147..48753c2 100644
+index 17a5147..f6f53cb 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogApp.vue
 +++ b/node_modules/@sugarat/theme/src/components/BlogApp.vue
-@@ -60,24 +60,27 @@ const openTransition = useDarkTransitionConfig()
-     <!-- 自定义首页 -->
-     <template v-if="isBlogTheme" #home-hero-before>
-       <slot name="home-hero-before" />
--      <div class="home">
--        <BlogHomeHeaderAvatar />
--        <div class="header-banner">
--          <BlogHomeBanner />
--        </div>
--        <div class="content-wrapper">
--          <div class="blog-list-wrapper">
--            <BlogList />
-+      <ClientOnly>
-+        <template #fallback>
-+          <p>Loading chart...</p>
-+        </template>
-+        <div class="home">
-+          <BlogHomeHeaderAvatar />
-+          <div class="header-banner">
-+            <BlogHomeBanner />
+@@ -69,11 +69,9 @@ const openTransition = useDarkTransitionConfig()
+           <div class="blog-list-wrapper">
+             <BlogList />
            </div>
 -          <div
 -            :class="{
-+          <div class="content-wrapper">
-+            <div class="blog-list-wrapper">
-+              <BlogList />
-+            </div>
-+            <div :class="{
-               'normal-mode': blogInfoCollapsible,
+-              'normal-mode': blogInfoCollapsible,
 -            }" class="blog-info-wrapper"
 -          >
--            <BlogHomeInfo />
-+            }" class="blog-info-wrapper">
-+              <BlogHomeInfo />
-+            </div>
++          <div :class="{
++            'normal-mode': blogInfoCollapsible,
++          }" class="blog-info-wrapper">
+             <BlogHomeInfo />
            </div>
          </div>
--      </div>
-+      </ClientOnly>
-     </template>
-     <template v-if="isBlogTheme" #sidebar-nav-after>
-       <slot name="sidebar-nav-after" />
-@@ -96,7 +99,9 @@ const openTransition = useDarkTransitionConfig()
+@@ -96,7 +94,9 @@ const openTransition = useDarkTransitionConfig()
        </ClientOnly>
      </template>
      <template #layout-bottom>
@@ -73,12 +46,13 @@ index 9eb2d85..06ccf71 100644
        </Icon>
      </span>
 diff --git a/node_modules/@sugarat/theme/src/components/BlogFooter.vue b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
-index bbd5aa1..b94614c 100644
+index bbd5aa1..0c016f5 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 +++ b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
-@@ -1,9 +1,15 @@
+@@ -1,9 +1,21 @@
  <script setup lang="ts">
- import { computed } from 'vue'
+-import { computed } from 'vue'
++import { computed, Ref } from 'vue'
  import { useHomeFooterConfig } from '../composables/config/blog'
 -import packageJSON from '../../package.json'
  import { copyrightSVG, icpSVG, themeSVG } from '../constants/svg'
@@ -87,13 +61,19 @@ index bbd5aa1..b94614c 100644
 +import CommentGiscus from './CommentGiscus.vue'
 +import { inject } from 'vue'
 +
-+const visitCount = (inject('visitCount') as any)[0][0] || 0
-+const visitCurr = (inject('visitCurr') as any)[0][0] || 0
++const visitCount = inject<Ref<number[][]>>('visitCount')
++const visitCurr = inject<Ref<number[][]>>('visitCurr')
 +
++const count = computed(() => {
++  return visitCount?.value[0][0] || 0
++})
++const curr = computed(() => {
++  return visitCurr?.value[0][0] || 0
++})
  
  const footerConfig = useHomeFooterConfig()
  
-@@ -19,7 +25,7 @@ const renderData = computed(() => {
+@@ -19,7 +31,7 @@ const renderData = computed(() => {
        name: string
        link?: string
        icon?: string | boolean
@@ -102,7 +82,7 @@ index bbd5aa1..b94614c 100644
      // message
      const messageData = [message || []].flat()
      const bottomMessageData = [bottomMessage || []].flat()
-@@ -28,12 +34,6 @@ const renderData = computed(() => {
+@@ -28,12 +40,6 @@ const renderData = computed(() => {
      const isLast = idx === flatData.length - 1
      if ((version !== false && isLast) || version) {
        const versionItem = typeof version === 'object' ? version : {}
@@ -115,7 +95,7 @@ index bbd5aa1..b94614c 100644
      }
      // copyright
      if (typeof copyright === 'string') {
-@@ -84,7 +84,6 @@ const renderData = computed(() => {
+@@ -84,7 +90,6 @@ const renderData = computed(() => {
    })
  })
  </script>
@@ -123,11 +103,11 @@ index bbd5aa1..b94614c 100644
  <template>
    <footer v-if="renderData.length" class="blog-footer">
      <!-- eslint-disable vue/require-v-for-key -->
-@@ -111,6 +110,9 @@ const renderData = computed(() => {
+@@ -111,6 +116,9 @@ const renderData = computed(() => {
        </p>
        <!-- 在内置的footer下方渲染 -->
        <p v-for="message in bottomMessageData" v-html="message" />
-+      <div style="margin: 8px 0;">今日本站访问 <b>{{ visitCurr }}</b> 次, 本站总访问次数 <b> {{ visitCount }}</b> 次。
++      <div style="margin: 8px 0;">今日本站访问 <b>{{ curr }}</b> 次, 本站总访问次数 <b> {{ count }}</b> 次。
 +      </div>
 +      <CommentGiscus />
      </template>

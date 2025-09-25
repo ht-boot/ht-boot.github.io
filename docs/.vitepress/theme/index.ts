@@ -1,4 +1,5 @@
 import { BlogTheme } from "@sugarat/theme";
+import { ref } from "vue";
 import fetchBaiduData from "../../api/fetchBaiduData";
 // 自定义样式重载
 import "./index.scss";
@@ -8,10 +9,18 @@ import "./index.scss";
 
 export default {
   ...BlogTheme,
-  async enhanceApp({ app }) {
-    const visitCount = await fetchBaiduData("2025-01-01");
-    const visitCurr = await fetchBaiduData();
+  enhanceApp({ app }) {
+    const visitCount = ref([[0, 0, 0, 0]]);
+    const visitCurr = ref([[0, 0, 0, 0]]);
+
     app.provide("visitCount", visitCount);
     app.provide("visitCurr", visitCurr);
+
+    fetchBaiduData("2025-01-01").then((res) => {
+      visitCount.value = res;
+    });
+    fetchBaiduData().then((res) => {
+      visitCurr.value = res;
+    });
   },
 };
