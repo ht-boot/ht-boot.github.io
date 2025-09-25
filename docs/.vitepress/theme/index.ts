@@ -16,11 +16,14 @@ export default {
     app.provide("visitCount", visitCount);
     app.provide("visitCurr", visitCurr);
 
-    fetchBaiduData("2025-01-01").then((res) => {
-      visitCount.value = res;
-    });
-    fetchBaiduData().then((res) => {
-      visitCurr.value = res;
-    });
+    // 仅在客户端调用，防止npm run build时出错
+    if (typeof window !== "undefined") {
+      fetchBaiduData("2025-01-01").then((res) => {
+        visitCount.value = res;
+      });
+      fetchBaiduData().then((res) => {
+        visitCurr.value = res;
+      });
+    }
   },
 };
