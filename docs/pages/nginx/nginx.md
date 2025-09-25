@@ -1,6 +1,6 @@
 ---
 title: Nginx
-description: Nginx 常用命令
+description: Nginx 文件配置与Nginx 常用命令集合。
 tags: 其他
 sidebar: true
 outline: deep
