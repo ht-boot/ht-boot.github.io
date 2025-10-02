@@ -82,7 +82,10 @@ export default defineConfig({
       {
         text: "前端",
         items: [
-          { text: "JavaScript", link: `/pages/javascript/javascript` },
+          {
+            text: "JavaScript",
+            link: `/pages/javascript/javascript`,
+          },
           { text: "TypeScript", link: `/pages/typescript/typescript` },
           { text: "React", link: `/pages/react/react` },
           { text: "Vue", link: `/pages/vue/vue` },
@@ -93,7 +96,7 @@ export default defineConfig({
         text: "服务",
         items: [
           { text: "Nginx", link: `/pages/nginx/nginx` },
-          { text: "vercel", link: `/pages/vercel/vercel` },
+          { text: "Vercel", link: `/pages/vercel/vercel` },
         ],
       },
     ],

@@ -46,7 +46,7 @@ index 9eb2d85..06ccf71 100644
        </Icon>
      </span>
 diff --git a/node_modules/@sugarat/theme/src/components/BlogFooter.vue b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
-index bbd5aa1..ae4e5e8 100644
+index bbd5aa1..f553c6b 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 +++ b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 @@ -1,9 +1,21 @@
@@ -68,7 +68,7 @@ index bbd5aa1..ae4e5e8 100644
 +  return visitCount?.value[0][0] || 2367
 +})
 +const curr = computed(() => {
-+  return visitCurr?.value[0][0] || 89
++  return visitCurr?.value[0][0] || 1
 +})
  
  const footerConfig = useHomeFooterConfig()
@@ -103,12 +103,14 @@ index bbd5aa1..ae4e5e8 100644
  <template>
    <footer v-if="renderData.length" class="blog-footer">
      <!-- eslint-disable vue/require-v-for-key -->
-@@ -111,6 +116,9 @@ const renderData = computed(() => {
+@@ -111,6 +116,11 @@ const renderData = computed(() => {
        </p>
        <!-- 在内置的footer下方渲染 -->
        <p v-for="message in bottomMessageData" v-html="message" />
-+      <div style="margin: 8px 0;">今日本站访问 <b>{{ curr }}</b> 次, 本站总访问次数 <b> {{ count }}</b> 次。
-+      </div>
++      <ClientOnly>
++        <div style="margin: 8px 0;">今日本站访问 <b>{{ curr }}</b> 次, 本站总访问次数 <b> {{ count }}</b> 次。
++        </div>
++      </ClientOnly>
 +      <CommentGiscus />
      </template>
    </footer>

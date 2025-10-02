@@ -18,7 +18,7 @@ import { getThemeConfig } from "@sugarat/theme/node";
 // 所有配置项，详见文档: https://theme.sugarat.top/
 const blogTheme = getThemeConfig({
   works: {
-    title: "个人项目/线上作品",
+    title: "个人项目/线上作品/工具/组件",
     description: "记录开发的点点滴滴",
     list: [
       {
