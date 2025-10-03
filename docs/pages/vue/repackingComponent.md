@@ -1,7 +1,7 @@
 ---
-title: 组件的二次封装
+title: 组件的二次封装(新)
 outline: deep
-date: 2024-09-24
+date: 2025-09-24
 tags: vue
 sidebar: true
 ---
