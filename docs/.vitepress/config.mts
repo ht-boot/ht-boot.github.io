@@ -86,10 +86,11 @@ export default defineConfig({
             text: "JavaScript",
             link: `/pages/javascript/javascript`,
           },
+          { text: "Vue", link: `/pages/vue/vue` },
           { text: "TypeScript", link: `/pages/typescript/typescript` },
           { text: "React", link: `/pages/react/react` },
-          { text: "Vue", link: `/pages/vue/vue` },
           { text: "Nuxt", link: `/pages/nuxt/nuxtjs` },
+          { text: "CSS", link: `/pages/css/css` },
         ],
       },
       {
