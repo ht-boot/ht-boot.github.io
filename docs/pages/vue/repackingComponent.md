@@ -1,122 +1,81 @@
 ---
-title: 组件的二次封装(新)
+title: 组件的二次封装
 outline: deep
-date: 2025-09-24
+date: 2023-04-24
 tags: vue
 sidebar: true
 ---
 
 # 组件的二次封装
 
-基于已有的组件，进行进一步的封装或包装，以便满足特定需求或增强其功能，通常是在不修改原始组件的情况下，通过组合、继承、或增强功能来实现。
+组件的封装要求 完整支持 v-model, 属性、事件、插槽的透传，类型推导、样式扩展。
 
-记录一个包装组件的巧妙方法。以 `ElInput` 组件为例，我们希望将 `ElInput` 组件进行二次封装，并暴露出 `ElInput` 组件的实例，以便在父组件中调用 `ElInput` 组件的方法。
+代码示例：
 
-```vue
+```vue [src/components/MyInput.vue]
 <template>
-  <component :is="h(ElInput, { ...$attrs }, $slots)" />
-</template>
-<script setup>
-import { h } from "vue";
-import { ElInput } from "element-plus";
-</script>
-```
-
-通过`h(ElInput, {...})` 动态创建了 `ElInput` 组件，并且将所有父组件传递的属性和插槽内容转发给 `ElInput`。
-
-```vue
-<template>
-  <component :is="h(ElInput, { ...$attrs, ref: funcRef }, $slots)" />
-</template>
-
-<script setup lang="ts">
-import { h, getCurrentInstance } from "vue";
-import { ElInput } from "element-plus";
-
-const vm = getCurrentInstance();
-
-// 获取到当前组件实例,并将其暴露给父组件
-const funcRef = (exposed: Record<string, any> | null) => {
-  if (!vm) return;
-  vm.exposed = exposed;
-};
-</script>
-```
-
-通过`getCurrentInstance`获取当前组件实例，`funcRef` 被作为 `ref` 传递给 `ElInput` 组件，允许父组件访问到 MyInput 中暴露的方法, 这样就可以在父组件中通过`ref`获取到`ElInput`组件的实例，从而调用其方法。`$slots` 用于传递插槽内容，`$slots`将父组件的插槽内容传递到子组件的插槽位置。
-
-父组件调用
-
-```vue
-<template>
-  <MyInput ref="inputRef" />
-  <el-button @click="handleClick">获取焦点</el-button>
+  <div class="my-select">
+    <!-- v-bind="{ ...$attrs, ...props }" 表示：
+         - 把父组件传来的所有属性（v-model、placeholder 等）透传进去
+         - 把自定义 props（如果有扩展属性）也一并传入
+      ⚠️ 注意：v-bind 的合并顺序会影响优先级，
+         这里 props 在后面可以覆盖 $attrs 同名属性 -->
+    <ElSelect ref="innerRef" v-bind="{ ...$attrs, ...props }">
+      <!-- 动态透传插槽
+        - 通过 v-for 遍历所有传入的插槽 ($slots)
+        - 自动生成 #default、#prefix、#suffix 等插槽
+        - scopedData 是作用域插槽参数对象 -->
+      <template v-for="(_, name) in $slots" #[name]="scopedData">
+        <slot :name="(name as keyof __VLS_Slots)" v-bind="scopedData" />
+      </template>
+    </ElSelect>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, useTemplateRef } from "vue";
-import MyInput from "./MyInput.vue";
+import { ElSelect } from "element-plus";
+import { useSlots } from "vue";
 
-const input = useTemplateRef("inputRef");
+const props = defineProps<{
+  modelValue?: string | number | (string | number)[];
+}>();
 
-const handleClick = () => {
-  if (input.value) {
-    input.value.focus();
-  }
-};
+/**
+ * 显式定义插槽类型（用于 IDE 智能提示）
+ * 这样父组件在写 <template #prefix> / #suffix / #default 时
+ * 都会自动出现代码提示。
+ */
+defineSlots<{
+  default?: () => any;
+  prefix?: () => any;
+  suffix?: () => any;
+}>();
+
+/**
+ * 暴露内部 ElSelect 的实例方法给父组件
+ * 这样父组件可以通过 ref 访问：
+ *    const selectRef = ref<InstanceType<typeof MySelect>>()
+ *    selectRef.value?.focus()
+ */
+
+defineExpose({} as InstanceType<typeof ElSelect>);
 </script>
+
+<style scoped>
+.my-select {
+  display: inline-block;
+  width: 100%;
+}
+
+:deep(.el-select) {
+  width: 100%;
+}
+</style>
 ```
 
-父组件通过`useTemplateRef`获取到`MyInput`组件的实例，然后调用其`focus`方法。  
-但是，我们的环境是 ts 环境，还没有实现 ts 独有的类型推断，所以需要去手动声明一下类型。
-
-```vue
-<script lang="ts" setup>
-import type { ComponentInstance } from "vue";
-import ElInput from "element-plus";
-// 推导ElInput的实例类型
-defineExpose({} as ComponentInstance<typeof ElInput>);
-</script>
-```
-
-通过`defineExpose`将`ElInput`的实例类型暴露给父组件，这样父组件在使用`useTemplateRef`时就可以正确地推断出类型。
-:::tip 注意 ⚠️
-这里的类型推导只能在 vscode 中生效，而 webstorm 中没办法。原因是 vscode 是基于 real language tools 实现的。
-:::
-
-完整代码
-
-```vue
-<template>
-  <component :is="h(ElInput, { ...$attrs, ref: funcRef }, $slots)" />
-</template>
-
-<script setup lang="ts">
-import { h, getCurrentInstance, type ComponentInstance } from "vue";
-import { ElInput } from "element-plus";
-
-const vm = getCurrentInstance();
-
-// 自定义props，也是可以通过ts类型推断的
-const props = defineProps({
-  abs: {
-    type: String,
-    default: "",
-  },
-});
-
-const demo = () => console.log("我是子组件的方式");
-
-// 获取到当前组件实例,并将其暴露给父组件
-const funcRef = (exposed: Record<string, any> | null) => {
-  if (!vm) return;
-  vm.exposed = {
-    ...exposed,
-    demo,
-  };
-};
-
-// 推导ElInput的实例类型
-defineExpose({} as ComponentInstance<typeof ElInput> & { demo: () => void });
-</script>
-```
+| 分类         | 要点                                                | 说明                                     |
+| ------------ | --------------------------------------------------- | ---------------------------------------- |
+| 属性透传     | `v-bind="{ ...$attrs, ...props }"`                  | 支持父组件直接传递 Element Plus 原生属性 |
+| 插槽透传     | 动态 `v-for="(_, name) in $slots"`                  | 自动转发所有具名插槽                     |
+| 插槽类型提示 | `defineSlots<>()`                                   | 提供智能提示和类型约束                   |
+| 实例暴露     | `defineExpose({} as InstanceType<typeof ElSelect>)` | 让父组件拿到 Element Plus 的方法         |
