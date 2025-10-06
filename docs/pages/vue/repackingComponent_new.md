@@ -3,6 +3,7 @@ title: 组件的二次封装(新)
 outline: deep
 date: 2025-09-24
 tags: vue
+top: 2
 sidebar: true
 ---
 

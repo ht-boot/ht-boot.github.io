@@ -46,7 +46,7 @@ index 9eb2d85..06ccf71 100644
        </Icon>
      </span>
 diff --git a/node_modules/@sugarat/theme/src/components/BlogFooter.vue b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
-index bbd5aa1..f553c6b 100644
+index bbd5aa1..0e8e4ce 100644
 --- a/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 +++ b/node_modules/@sugarat/theme/src/components/BlogFooter.vue
 @@ -1,9 +1,21 @@
@@ -65,7 +65,7 @@ index bbd5aa1..f553c6b 100644
 +const visitCurr = inject<Ref<number[][]>>('visitCurr')
 +
 +const count = computed(() => {
-+  return visitCount?.value[0][0] || 2367
++  return visitCount?.value[0][0] || 999
 +})
 +const curr = computed(() => {
 +  return visitCurr?.value[0][0] || 1
@@ -190,6 +190,43 @@ index 1a61ae2..38e806e 100644
      display: none;
    }
  }
+diff --git a/node_modules/@sugarat/theme/src/components/BlogItem.vue b/node_modules/@sugarat/theme/src/components/BlogItem.vue
+index e261085..360f81c 100644
+--- a/node_modules/@sugarat/theme/src/components/BlogItem.vue
++++ b/node_modules/@sugarat/theme/src/components/BlogItem.vue
+@@ -67,12 +67,10 @@ const resultCover = computed(() => {
+ </script>
+ 
+ <template>
+-  <a
+-    class="blog-item" :href="link" @click="(e) => {
+-      e.preventDefault()
+-      handleSkipDoc()
+-    }"
+-  >
++  <a class="blog-item" :href="link" @click="(e) => {
++    e.preventDefault()
++    handleSkipDoc()
++  }">
+     <i v-show="!!pin" class="pin" />
+     <!-- 标题 -->
+     <p class="title mobile-visible">
+@@ -120,6 +118,7 @@ const resultCover = computed(() => {
+   top: -4px;
+   left: -4px;
+   opacity: 0.5;
++  transition: all 0.3s;
+ }
+ 
+ .blog-item:hover .pin {
+@@ -158,6 +157,7 @@ const resultCover = computed(() => {
+ 
+   &:hover {
+     box-shadow: var(--box-shadow-hover);
++    transform: scale(1.01);
+   }
+ }
+ 
 diff --git a/node_modules/@sugarat/theme/src/components/CommentGiscus.vue b/node_modules/@sugarat/theme/src/components/CommentGiscus.vue
 index a36fef2..11ff2dc 100644
 --- a/node_modules/@sugarat/theme/src/components/CommentGiscus.vue
