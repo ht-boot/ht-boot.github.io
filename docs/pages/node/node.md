@@ -88,6 +88,27 @@ nodejs 任务队列
 | 微任务队列 (Microtask) | Promise.then, async/await, process.nextTick > Promise | 高 → 当前执行栈清空后立即执行 |
 | 宏任务队列 (Macrotask) | setTimeout, setInterval, setImmediate, I/O 回调 | 低 → 按轮询顺序执行 |
 
+## node 常用 API
+
+| 模块 / 全局对象                | 功能                    | 常用方法 / 属性                                                                                | 示例                                                                                                                        |
+| ------------------------------ | ----------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **fs**（文件系统）             | 文件读写、目录操作      | `readFile` / `readFileSync`<br>`writeFile` / `writeFileSync`<br>`mkdir` / `rmdir`<br>`readdir` | `js const fs = require('fs'); fs.readFile('test.txt','utf8',(e,d)=>console.log(d)); `                                       |
+| **path**（路径处理）           | 文件路径拼接、解析      | `join()` / `resolve()`<br>`basename()`<br>`dirname()`<br>`extname()`                           | `js const path = require('path'); console.log(path.join(__dirname,'test.txt')); `                                           |
+| **os**（系统信息）             | 获取操作系统信息        | `platform()`<br>`cpus()`<br>`freemem()`                                                        | `js const os = require('os'); console.log(os.cpus().length); `                                                              |
+| **http / https**               | 创建服务器 / 发起请求   | `http.createServer()`<br>`https.get()`                                                         | `js const http = require('http'); http.createServer((req,res)=>res.end('ok')).listen(3000); `                               |
+| **events**                     | 发布/订阅事件           | `EventEmitter`<br>`on()`<br>`emit()`                                                           | `js const {EventEmitter}=require('events'); const e=new EventEmitter(); e.on('msg',d=>console.log(d)); e.emit('msg','hi');` |
+| **stream**                     | 处理大数据流            | `Readable` / `Writable` / `Duplex` / `Transform`                                               | `js const fs=require('fs'); fs.createReadStream('file.txt').on('data',chunk=>console.log(chunk.toString()));`               |
+| **child_process**              | 创建子进程              | `exec()` / `spawn()` / `fork()`                                                                | `js const {exec}=require('child_process'); exec('ls',(e,s)=>console.log(s));`                                               |
+| **crypto**                     | 加密 / 哈希             | `createHash()` / `randomBytes()` / `createCipheriv()`                                          | `js const crypto=require('crypto'); console.log(crypto.createHash('md5').update('123').digest('hex'));`                     |
+| **util**                       | 工具函数                | `promisify()` / `inherits()` / `types`                                                         | `js const {promisify}=require('util');`                                                                                     |
+| **timers**                     | 定时器                  | `setTimeout()` / `setInterval()` / `setImmediate()`                                            | `js setTimeout(()=>console.log('timeout'),1000);`                                                                           |
+| **url**                        | URL 解析                | `URL` / `URLSearchParams`                                                                      | `js const u = new URL('https://example.com?a=1'); console.log(u.searchParams.get('a'));`                                    |
+| **querystring**                | 查询字符串解析          | `parse()` / `stringify()`                                                                      | `js const qs = require('querystring'); console.log(qs.parse('a=1&b=2'));`                                                   |
+| **global**                     | 全局对象                | `setTimeout` / `clearTimeout` / `Buffer` / `process`                                           | -                                                                                                                           |
+| **process**                    | 进程信息                | `argv` / `env` / `exit()` / `on('exit')`                                                       | `js console.log(process.argv); console.log(process.env.NODE_ENV);`                                                          |
+| **Buffer**                     | 二进制数据处理          | `Buffer.from()` / `Buffer.alloc()`                                                             | `js const buf = Buffer.from('hello'); console.log(buf.toString());`                                                         |
+| \***\*dirname / **filename\*\* | 当前文件目录 / 文件路径 | -                                                                                              | `js console.log(__dirname); console.log(__filename);`                                                                       |
+
 ## 更多
 
 此页面记录易忘点。。。
