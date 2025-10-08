@@ -96,6 +96,7 @@ export default defineConfig({
       {
         text: "服务",
         items: [
+          { text: "Node.js", link: `/pages/node/node` },
           { text: "Nginx", link: `/pages/nginx/nginx` },
           { text: "Vercel", link: `/pages/vercel/vercel` },
         ],
