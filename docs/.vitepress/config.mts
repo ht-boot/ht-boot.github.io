@@ -104,7 +104,7 @@ export default defineConfig({
     socialLinks: [
       {
         icon: "github",
-        link: "",
+        link: "https://github.com/ht-boot/ht-boot.github.io",
       },
     ],
   },
