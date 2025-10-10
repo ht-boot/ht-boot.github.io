@@ -22,6 +22,28 @@ const blogTheme = getThemeConfig({
     description: "记录开发的点点滴滴",
     list: [
       {
+        title: "图片颜色提取工具",
+        description:
+          "在线图片颜色提取工具，用户可以上传图片，工具能自动分析并提取图片中最主要的 5-6 种颜色，生成可视化调色盘，每个颜色块下方显示其 HEX 色号，并提供一键复制 HEX 色号的功能。",
+        time: {
+          start: "2025/10",
+        },
+        status: {
+          text: "web",
+        },
+        cover: [
+          "https://free.picui.cn/free/2025/10/11/68e9332bd3711.jpg",
+          "https://free.picui.cn/free/2025/10/11/68e934917834e.jpg",
+        ],
+        tags: ["react", "typescript"],
+        links: [
+          {
+            title: "图片颜色提取工具、react、typescript",
+            url: "https://github.com/ht-boot/react_color_extraction_tool",
+          },
+        ],
+      },
+      {
         title: "音乐桌面应用",
         description:
           "桌面应用,基于 electron、vite、react、typescript、antd实现的一个简易音乐平台，支持播放、暂停、上一曲、下一曲、音量调节、歌词展示、播放进度条、播放列表等功能。其余功能会在后续慢慢完善",
