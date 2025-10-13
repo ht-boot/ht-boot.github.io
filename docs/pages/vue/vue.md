@@ -134,16 +134,14 @@ console.log(vnode);
 使用示例:
 
 ```js [index.vue]
-import { h } from "vue";
-
-export default {
-  render() {
-    return h("div", { class: "box" }, [
-      h("h1", null, "标题"),
-      h("p", null, "这里是内容"),
-    ]);
-  },
+const renderFn = () => {
+  return h("div", { class: "box" }, [
+    h("h1", null, "标题"),
+    h("p", null, "这里是内容"),
+  ]);
 };
+
+render(renderFn(), document.body); // 渲染到 body
 ```
 
 就等价于:
