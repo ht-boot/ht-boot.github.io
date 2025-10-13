@@ -70,6 +70,7 @@ export default defineConfig({
     nav: [
       { text: "首页", link: "/" },
       { text: "关于作者", link: "/pages/aboutme" },
+      { text: "问题集合", link: "/pages/question/question" },
       // 二级导航
       {
         text: "知识库",
