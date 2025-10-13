@@ -457,3 +457,56 @@ class ComputedRefImpl {
 4. state.name 进行响应式处理: 当 `state.name` 改变时，触发 `trigger`，此时会触发 `effect.scheduler`，进行 `dom.innerHTML` 的更新。
 
 ## watch 代码实现
+
+watch 实现原理:
+
+1. 依赖收集：在 Vue 3 中，响应式数据的依赖收集是通过 getter 和 ReactiveEffect 完成的。getter 会触发对数据的访问，进而让 Vue 收集哪些地方依赖了这个数据。
+2. ReactiveEffect：这是 Vue 3 响应式系统的核心类，它封装了副作用（job）的逻辑，并通过 getter 收集依赖。每当数据变化时，job 就会被调用，从而触发回调。
+3. 深度监听：traverse 用来递归地访问对象的所有属性，确保每个属性都能被 Vue 追踪。
+
+<details>
+<summary style="color: #1989fa; cursor: pointer">点击代码展开</summary>
+
+```js
+import { ReactiveEffect, isReactive } from "./reactivity.js";
+export function watch(source, cb, options = {}) {
+  return doWatch(source, cb, options);
+}
+
+function doWatch(source, cb, { immediate, deep } = {}) {
+  if (!isReactive(source)) return; // 如果不是响应式数据，则直接返回
+
+  let getter;
+  let oldValue, newValue;
+  if (typeof source === "function") {
+    getter = source;
+  } else {
+    getter = () => traverse(source, deep);
+  }
+
+  const job = () => {
+    newValue = effect.run();
+    if (cb) {
+      cb(newValue, oldValue);
+    }
+    oldValue = newValue;
+  };
+
+  const effect = new ReactiveEffect(getter, job);
+  oldValue = effect.run();
+}
+
+function traverse(source, deep) {
+  if (typeof source !== "object" || source === null) {
+    return source;
+  }
+  if (deep) {
+    for (const key in source) {
+      traverse(source[key], deep); // 触发对象上的每个属性的get， 从而收集依赖。
+    }
+  }
+  return source;
+}
+```
+
+</details>
