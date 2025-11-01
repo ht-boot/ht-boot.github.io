@@ -54,3 +54,15 @@ date: 2021-07-06
   text-overflow: ellipsis; /* 超出部分显示省略号 */
 }
 ```
+
+### 3. CSS 裁剪
+
+clip-path 允许您使用各种几何图形或 SVG 路径，将原本方形的 HTML 元素裁剪成任意形状，从而实现复杂的、非矩形的布局和视觉效果。
+
+常见几何图形函数
+| 函数 | 作用 | 示例 | 形状 |
+|------|------|------|------|
+| `circle()` | 裁剪为圆形。 | `clip-path: circle(50% at 50% 50%);` | 圆形 (Circle) |
+| `ellipse()` | 裁剪为椭圆。 | `clip-path: ellipse(60% 40% at 50% 50%);` | 椭圆 (Oval) |
+| `polygon()` | 裁剪为多边形。需要定义一系列点的坐标。 | `clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);` | 任意多边形 (e.g., Star, Arrow) |
+| `inset()` | 裁剪为内嵌的矩形。 | `clip-path: inset(10% 20% 30% 40%);` | 内嵌矩形 (Rounded Corners) |
